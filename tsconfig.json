@@ -13,6 +13,7 @@
     "resolveJsonModule": true,
     "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
+    "strictPropertyInitialization": false,
 
     /* type checking */
     "strict": true,
@@ -25,5 +26,5 @@
       "@utils/*": ["./src/utils/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "index.d.ts"]
 }

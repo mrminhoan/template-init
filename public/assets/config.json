@@ -1,0 +1,10 @@
+{
+    "system": {
+        "applicationName": "sandbox",
+        "applicationUrl": ""
+    },
+    "rest": {
+        "apiUrl": "https://fakestoreapi.com/",
+        "apiUrlV2": ""
+    }
+}
