@@ -1,79 +1,51 @@
 import { UserModel } from '@/model/class'
-import { API } from '@/constants'
 
-import { createNew, editUser, getAll, getDetailById, removeUser } from '@/service/pages'
-import { useCustomQuery } from '@/service/react-query'
+import { GetUserQuery } from '@/service/react-query/user/get-user-query'
+import { MutationUser } from '@/service/react-query/user/user-mutation'
+import { TFormMutation } from '@/service/react-query'
+
+const dataFake: Partial<UserModel> = {
+  id: '6',
+  email: 'John@gmail.com',
+  username: 'johnd',
+  password: 'm38rmF$',
+  name: {
+    firstname: 'John',
+    lastname: 'Doe'
+  },
+  address: {
+    city: 'kilcoole',
+    street: '7835 new road',
+    number: 3,
+    zipcode: '12926-3874'
+  },
+  phone: '1-570-236-7033'
+}
 
 function UserPage() {
-  const query = useCustomQuery({
-    queryKey: [API.USERS.LIST],
-    fetcher: getAll,
-    props: {
-      payload: {
-        limit: 10,
-        sort: 'desc'
-      }
-    }
+  const query = GetUserQuery()
+
+  const { mutateAsync: createUserAsync } = MutationUser({
+    type: TFormMutation.Create
+  })
+  const { mutateAsync: editUserAsync } = MutationUser({
+    type: TFormMutation.Update
+  })
+  const { mutateAsync: deleteUserAsync } = MutationUser({
+    type: TFormMutation.Delete
   })
 
-  // const queryDetail = useCustomQuery({
-  //   queryKey: [API.USERS.DETAIL],
-  //   fetcher: getDetailById,
-  //   props: {
-  //     payload: {
-  //       id: '123'
-  //     }
-  //   }
-  // })
-
-  // query.data?.data[0]._fullname
-
-  const handleCreate = () => {
-    const data: Partial<UserModel> = {
-      email: 'John@gmail.com',
-      username: 'johnd',
-      password: 'm38rmF$',
-      name: {
-        firstname: 'John',
-        lastname: 'Doe'
-      },
-      address: {
-        city: 'kilcoole',
-        street: '7835 new road',
-        number: 3,
-        zipcode: '12926-3874'
-      },
-      phone: '1-570-236-7033',
-      _fullname: ''
-    }
-
-    createNew({ payload: data })
-  }
-
-  const handleEdit = () => {
-    const data: Partial<UserModel> = {
-      email: 'John@gmail.com',
-      username: 'johnd',
-      password: 'm38rmF$',
-      name: {
-        firstname: 'John',
-        lastname: 'Doe'
-      },
-      address: {
-        city: 'kilcoole',
-        street: '7835 new road',
-        number: 3,
-        zipcode: '12926-3874'
-      },
-      phone: '1-570-236-7033'
-    }
-    const id = '6'
-    editUser(id, { payload: data })
+  const onFinish = async (data: Partial<UserModel>) => {
+    const request = data?.id ? editUserAsync : createUserAsync
+    await request({ payload: data })
   }
 
   const handleDelete = () => {
-    const id = '6'
-    removeUser(id)
+    deleteUserAsync({
+      payload: {
+        id: '6'
+      }
+    })
   }
   return (
     <>
@@ -82,7 +54,7 @@ function UserPage() {
         <button
           type="button"
           style={{ backgroundColor: '#ccc', padding: '5px 10px', border: '1px solid black', borderRadius: '10px' }}
-          onClick={handleCreate}
+          onClick={() => onFinish(dataFake)}
         >
           Create new{' '}
         </button>
@@ -90,7 +62,7 @@ function UserPage() {
         <button
           type="button"
           style={{ backgroundColor: '#ccc', padding: '5px 10px', border: '1px solid black', borderRadius: '10px' }}
-          onClick={handleEdit}
+          onClick={() => onFinish(dataFake)}
         >
           Edit User{' '}
         </button>

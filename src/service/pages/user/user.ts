@@ -18,14 +18,16 @@ export const createNew = (request: Partial<IApiRequest<UserModel>>) => {
   })
 }
 
-export const editUser = (id: string, request: Partial<IApiRequest<UserModel>>) => {
+export const editUser = (request: Partial<IApiRequest<UserModel>>) => {
+  const id = request?.payload?.id || ''
   return BaseService.put<UserModel>({
     url: API.USERS.UPDATE.format(id),
     payload: request?.payload
   })
 }
 
-export const removeUser = (id: string) => {
+export const removeUser = (request: Partial<IApiRequest<UserModel>>) => {
+  const id = request?.payload?.id?.toString() || ''
   return BaseService.remove<UserModel>({
     url: API.USERS.DELETE.format(id)
   })

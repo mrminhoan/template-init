@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query'
 import { IParameters } from './react-query-type'
+import { useQuery } from '@tanstack/react-query'
 import { createKeyQuery } from '@/utils/create-key-query'
 
 export const useCustomQuery = <T, D>(parameters: IParameters<T, D>) => {

@@ -14,7 +14,8 @@
     "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
     "strictPropertyInitialization": false,
-
+    // "strictNullChecks": false,
+    
     /* type checking */
     "strict": true,
     "noUnusedLocals": true,
