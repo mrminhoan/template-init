@@ -1,18 +1,32 @@
 import { UserModel } from '@/model/class'
-import { createNew, editUser, getAll } from '@/service/pages'
-import { useEffect } from 'react'
+import { API } from '@/constants'
+
+import { createNew, editUser, getAll, getDetailById, removeUser } from '@/service/pages'
+import { useCustomQuery } from '@/service/react-query'
 
 function UserPage() {
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const res = await getAll()
-        console.log(res)
-      } catch (error) {
-        console.log(error)
+  const query = useCustomQuery({
+    queryKey: [API.USERS.LIST],
+    fetcher: getAll,
+    props: {
+      payload: {
+        limit: 10,
+        sort: 'desc'
       }
-    })()
+    }
   })
+
+  // const queryDetail = useCustomQuery({
+  //   queryKey: [API.USERS.DETAIL],
+  //   fetcher: getDetailById,
+  //   props: {
+  //     payload: {
+  //       id: '123'
+  //     }
+  //   }
+  // })
+
+  // query.data?.data[0]._fullname
 
   const handleCreate = () => {
     const data: Partial<UserModel> = {
@@ -53,12 +67,18 @@ function UserPage() {
       },
       phone: '1-570-236-7033'
     }
-    editUser('7', { payload: data })
+    const id = '6'
+    editUser(id, { payload: data })
+  }
+
+  const handleDelete = () => {
+    const id = '6'
+    removeUser(id)
   }
   return (
     <>
       <div>Test</div>
-      <div className='flex gap-5'>
+      <div className="flex gap-5">
         <button
           type="button"
           style={{ backgroundColor: '#ccc', padding: '5px 10px', border: '1px solid black', borderRadius: '10px' }}
@@ -66,12 +86,21 @@ function UserPage() {
         >
           Create new{' '}
         </button>
+
         <button
           type="button"
           style={{ backgroundColor: '#ccc', padding: '5px 10px', border: '1px solid black', borderRadius: '10px' }}
           onClick={handleEdit}
         >
           Edit User{' '}
+        </button>
+
+        <button
+          type="button"
+          style={{ backgroundColor: '#ccc', padding: '5px 10px', border: '1px solid black', borderRadius: '10px' }}
+          onClick={handleDelete}
+        >
+          Remove User{' '}
         </button>
       </div>
     </>

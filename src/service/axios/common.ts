@@ -1,7 +1,7 @@
 import { IApiResponse, IConfig } from '@/model/interface'
 import { IApiRequest } from '@/model/interface/i-api-request'
 import { getConfigStorage } from '@/utils/local-storage'
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 
 const getUrlByKey = (key: keyof IConfig['rest']) => {
   return getConfigStorage.getValue()?.rest[key]
@@ -13,7 +13,7 @@ const instance = axios.create({
 })
 
 export const BaseService = {
-  get<T, D>({ url = '', payload, toResponse, keyUrl = 'apiUrl' }: Partial<IApiRequest<T>>): Promise<IApiResponse<D>> {
+  get<D>({ url = '', payload, toResponse, keyUrl = 'apiUrl' }: Partial<IApiRequest>): Promise<IApiResponse<D>> {
     return instance
       .get(url, {
         baseURL: getUrlByKey(keyUrl),
@@ -46,7 +46,7 @@ export const BaseService = {
       })
   },
 
-  put<T>({ url = '', keyUrl = 'apiUrl', payload }: Partial<IApiRequest<T>>) {
+  put<T>({ url = '', keyUrl = 'apiUrl', payload }: Partial<IApiRequest<T>>): Promise<IApiResponse<T>> {
     return instance
       .put(url, payload, {
         baseURL: getUrlByKey(keyUrl)
@@ -56,6 +56,19 @@ export const BaseService = {
       })
       .catch((error) => {
         return Promise.resolve(error)
+      })
+  },
+
+  remove<T>({ url = '', keyUrl = 'apiUrl' }: Partial<IApiRequest>): Promise<IApiResponse<T>> {
+    return instance
+      .delete(url, {
+        baseURL: getUrlByKey(keyUrl)
+      })
+      .then((res) => {
+        return Promise.resolve(res)
+      })
+      .catch((error) => {
+        return Promise.reject(error)
       })
   }
 }

@@ -1,8 +1,12 @@
 import React, { ReactNode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 import { setConfigStorage } from './utils/local-storage'
-import "./custom-prototype/extension"
+import './custom-prototype/extension'
+
+const queryClient = new QueryClient()
 interface IProps {
   children: ReactNode
   urlRemote?: string
@@ -15,7 +19,9 @@ function WrapperConfig(props: IProps) {
 
   root.render(
     <React.StrictMode>
-      <BrowserRouter>{children}</BrowserRouter>
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      </BrowserRouter>
     </React.StrictMode>
   )
 }
