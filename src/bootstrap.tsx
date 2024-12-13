@@ -1,4 +1,4 @@
-import LoadedAleCore from '@utils/loadable-ale-core'
+import LoadedAleCore from '@/utils/loadable-ale-core'
 import WrapperConfig from './wrapper-config'
 import { setConfigStorage } from './utils/local-storage'
 const App = LoadedAleCore(() => import('./App'))

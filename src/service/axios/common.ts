@@ -59,7 +59,7 @@ export const BaseService = {
       })
   },
 
-  remove<T>({ url = '', keyUrl = 'apiUrl' }: Partial<IApiRequest>): Promise<IApiResponse<T>> {
+  remove<T>({ url = '', keyUrl = 'apiUrl' }: Partial<IApiRequest<T>>): Promise<IApiResponse<T>> {
     return instance
       .delete(url, {
         baseURL: getUrlByKey(keyUrl)

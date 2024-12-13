@@ -2,7 +2,7 @@ import { UserModel } from '@/model/class'
 
 import { GetUserQuery } from '@/service/react-query/user/get-user-query'
 import { MutationUser } from '@/service/react-query/user/user-mutation'
-import { TFormMutation } from '@/service/react-query'
+import { TMutation } from '@/service/react-query'
 
 const dataFake: Partial<UserModel> = {
   id: '6',
@@ -22,17 +22,17 @@ const dataFake: Partial<UserModel> = {
   phone: '1-570-236-7033'
 }
 
-function UserPage() {
+function UserList() {
   const query = GetUserQuery()
 
   const { mutateAsync: createUserAsync } = MutationUser({
-    type: TFormMutation.Create
+    type: TMutation.Create
   })
   const { mutateAsync: editUserAsync } = MutationUser({
-    type: TFormMutation.Update
+    type: TMutation.Update
   })
   const { mutateAsync: deleteUserAsync } = MutationUser({
-    type: TFormMutation.Delete
+    type: TMutation.Delete
   })
 
   const onFinish = async (data: Partial<UserModel>) => {
@@ -79,4 +79,4 @@ function UserPage() {
   )
 }
 
-export default UserPage
+export default UserList

@@ -33,7 +33,8 @@
       "recommended": true,
       "style": {
         "noNonNullAssertion": "off",
-        "useImportType": "off"
+        "useImportType": "off",
+        "useSelfClosingElements": "off"
       },
       "correctness": {
         "noUnusedVariables": "warn",
